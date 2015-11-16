@@ -1,0 +1,11 @@
+body{
+	font-size:62.5%;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+}
+
+.head{
+	font-size:3rem;
+	font-weight: bold;
+}
