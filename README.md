@@ -2,7 +2,8 @@ Jz Hotel 房价牌 Version 1.0
 ==== 
 ###Example:  <br>
 ```javascript
-//修改目录下config.js 配置后 刷新
+//修改目录下config.js 配置后 个配置请参考事例的样式添加，不限制个数
+//请先备份原始配置,保存配置刷新网站即可见效果
 
 //配置
 var config = {
@@ -21,7 +22,7 @@ var config = {
     roomInterval:2000,//房型切换间隔
     roomType: [{ //房型房价设置
         name: '商务标间',
-        price: [138, 138] //顺序对应priceType
+        price: [138, 138] //顺序对应priceType 个数跟priceType一致
     }, {
         name: '中式单间',
         price: [208, 208]
