@@ -4,7 +4,9 @@ body{
 	padding-right: 20px;
 	padding-top: 10px;
 }
-
+.hotel{
+	 vertical-align:middle; 
+}
 .head{
 	font-size:3.5rem;
 	font-weight: bold;

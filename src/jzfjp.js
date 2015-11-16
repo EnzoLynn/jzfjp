@@ -186,7 +186,7 @@
 
  			<div className='row' style={{'backgroundColor':config.bodyColor}}>
 				<div className='col-md-6 hotel' style={{color:config.fontColor,'fontSize':config.fontSize}}>					 
-						<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px','margin-top':'-10px'}} alt={config.hotelName} />
+						<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px'}} alt={config.hotelName} />
 						{config.hotelName} 
 				</div>
 				<div className="col-md-6" style={{'fontSize':config.fontSize}}>
