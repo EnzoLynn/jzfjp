@@ -1,10 +1,11 @@
+ var index = 0;
  var ListRow = React.createClass({
 
  	render: function() {
  		var me = this;
  		var tds = [];
- 		this.props.price.forEach(function(price, key) {
- 			tds.push(<td className='lrow'>{price}</td> );
+ 		this.props.price.forEach(function(price, key) { 
+ 			tds.push(<td className='lrow' key={key}>{price}</td>);
  		});
  		return (
  			<tr> 
@@ -21,12 +22,14 @@
  		var me = this;
  		var tds = [];
  		config.priceType.forEach(function(price, key) {
- 			tds.push(<th className='head'>{price}</th> );
+ 			tds.push(<th className='head'  key={key}>{price}</th>);
  		});
  		return (
  			<thead> 
-				<th className='head'>房型</th> 
-				{tds}
+ 				<tr>
+					<th className='head'>房型</th> 
+					{tds}
+				</tr>
 			</thead>
  		);
  	}
@@ -36,19 +39,30 @@
 
  	render: function() {
  		var me = this;
- 		var rows = [],heads=[];
- 		config.roomType.forEach(function(room, key) {
- 			rows.push(<ListRow name={room.name} price={room.price} />);
+ 		var rows = [],
+ 			heads = [];
+ 		this.props.roomType.forEach(function(room, key) {
+ 			rows.push(<ListRow name={room.name} price={room.price}  key={key}/>);
  		});
- 		var span = config.roomType.length+1;
- 		console.log(span);
- 		rows.push(<tr><td colSpan ={span}><marquee style={{'color':config.ruleColor,'font-size':config.rulefontSize}}  >{config.hotelRule}</marquee></td></tr>);
- 		
+
+ 		var span = config.priceType.length + 1;
+ 		if (rows.length < 5) {
+ 			var add = [];
+ 			for (var i = 0; i < 5 - rows.length; i++) {
+ 				var nk = 'lr' + i;
+ 				add.push(<tr><td className='lrow' colSpan ={span} key={nk}> - </td></tr>);
+ 			};
+ 			rows = rows.concat(add);
+ 		};
+ 		rows.push(<tr><td colSpan ={span} ><marquee style={{'color':config.ruleColor,'fontSize':config.rulefontSize}}  >{config.hotelRule}</marquee></td></tr>);
+
  		return (
  			<table className='col-md-12 table table-striped'>
  			 	<HeadRow/>
+ 			 	<tbody>
 				{rows} 
- 			</table> 
+				</tbody>
+ 			</table>
  		);
  	}
  });
@@ -126,6 +140,7 @@
 
  	},
  	componentDidMount: function() {
+
  		var me = this;
  		//一秒刷新一次显示时间
  		setInterval(function() {
@@ -133,25 +148,53 @@
  				datetime: me.getDateTime()
  			});
  		}, 1000);
+ 		setInterval(function() {
+ 			index++;
+ 			if (index > me.state.totalpage - 1) {
+ 				index = 0;
+ 			};
+ 			me.setState({
+ 				leftArr: me.state.leftSrc[index]
+ 			});
+ 		}, config.roomInterval);
  	},
+
  	getInitialState: function() {
+ 		var leftArr = [];
+ 		var total = config.roomType.length;
+ 		var pageSize = 5;
+ 		var page = total % 5 == 0 ? total / 5 : Math.floor(total / 5) + 1;
+ 		for (var i = 0; i < page; i++) {
+ 			var end = i == page - 1 ? total : (i + 1) * pageSize;
+
+ 			var temp = config.roomType.slice(i * pageSize, end);
+
+ 			leftArr.push(<LeftList roomType={temp}/>);
+ 		};
+
  		return {
- 			datetime: this.getDateTime()
+ 			datetime: this.getDateTime(),
+ 			leftArr: leftArr[index],
+ 			leftSrc: leftArr,
+ 			totalpage: page,
+ 			curpage: 0
  		};
  	},
  	render: function() {
+
  		return (
 
- 			<div className='row' style={{'background-color':config.bodyColor}}>
-				<div className='col-md-6 hotel' style={{color:config.fontColor,'font-size':config.fontSize}}>
-				<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px'}} alt={config.hotelName} />{config.hotelName}
+ 			<div className='row' style={{'backgroundColor':config.bodyColor}}>
+				<div className='col-md-6 hotel' style={{color:config.fontColor,'fontSize':config.fontSize}}>					 
+						<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px','margin-top':'-10px'}} alt={config.hotelName} />
+						{config.hotelName} 
 				</div>
-				<div className="col-md-6" style={{'font-size':config.fontSize}}>
+				<div className="col-md-6" style={{'fontSize':config.fontSize}}>
 				  {this.state.datetime}	 
 				</div>
 				<div className="clearfix"></div>
 				<div className='col-md-6 leftList'>
-					<LeftList/>
+					{this.state.leftArr}
 				</div>
 				<div className='col-md-6 rightList'>
 					<RightList/>

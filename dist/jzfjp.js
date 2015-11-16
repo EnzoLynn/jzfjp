@@ -1,5 +1,6 @@
 'use strict';
 
+var index = 0;
 var ListRow = React.createClass({
   displayName: 'ListRow',
 
@@ -9,7 +10,7 @@ var ListRow = React.createClass({
     this.props.price.forEach(function (price, key) {
       tds.push(React.createElement(
         'td',
-        { className: 'lrow' },
+        { className: 'lrow', key: key },
         price
       ));
     });
@@ -35,7 +36,7 @@ var HeadRow = React.createClass({
     config.priceType.forEach(function (price, key) {
       tds.push(React.createElement(
         'th',
-        { className: 'head' },
+        { className: 'head', key: key },
         price
       ));
     });
@@ -43,11 +44,15 @@ var HeadRow = React.createClass({
       'thead',
       null,
       React.createElement(
-        'th',
-        { className: 'head' },
-        '房型'
-      ),
-      tds
+        'tr',
+        null,
+        React.createElement(
+          'th',
+          { className: 'head' },
+          '房型'
+        ),
+        tds
+      )
     );
   }
 });
@@ -59,11 +64,27 @@ var LeftList = React.createClass({
     var me = this;
     var rows = [],
         heads = [];
-    config.roomType.forEach(function (room, key) {
-      rows.push(React.createElement(ListRow, { name: room.name, price: room.price }));
+    this.props.roomType.forEach(function (room, key) {
+      rows.push(React.createElement(ListRow, { name: room.name, price: room.price, key: key }));
     });
-    var span = config.roomType.length + 1;
-    console.log(span);
+
+    var span = config.priceType.length + 1;
+    if (rows.length < 5) {
+      var add = [];
+      for (var i = 0; i < 5 - rows.length; i++) {
+        var nk = 'lr' + i;
+        add.push(React.createElement(
+          'tr',
+          null,
+          React.createElement(
+            'td',
+            { className: 'lrow', colSpan: span, key: nk },
+            ' - '
+          )
+        ));
+      };
+      rows = rows.concat(add);
+    };
     rows.push(React.createElement(
       'tr',
       null,
@@ -72,7 +93,7 @@ var LeftList = React.createClass({
         { colSpan: span },
         React.createElement(
           'marquee',
-          { style: { 'color': config.ruleColor, 'font-size': config.rulefontSize } },
+          { style: { 'color': config.ruleColor, 'fontSize': config.rulefontSize } },
           config.hotelRule
         )
       )
@@ -82,7 +103,11 @@ var LeftList = React.createClass({
       'table',
       { className: 'col-md-12 table table-striped' },
       React.createElement(HeadRow, null),
-      rows
+      React.createElement(
+        'tbody',
+        null,
+        rows
+      )
     );
   }
 });
@@ -162,6 +187,7 @@ var JzFjp = React.createClass({
     return str + '       ' + week;
   },
   componentDidMount: function componentDidMount() {
+
     var me = this;
     //一秒刷新一次显示时间
     setInterval(function () {
@@ -169,32 +195,59 @@ var JzFjp = React.createClass({
         datetime: me.getDateTime()
       });
     }, 1000);
+    setInterval(function () {
+      index++;
+      if (index > me.state.totalpage - 1) {
+        index = 0;
+      };
+      me.setState({
+        leftArr: me.state.leftSrc[index]
+      });
+    }, config.roomInterval);
   },
+
   getInitialState: function getInitialState() {
+    var leftArr = [];
+    var total = config.roomType.length;
+    var pageSize = 5;
+    var page = total % 5 == 0 ? total / 5 : Math.floor(total / 5) + 1;
+    for (var i = 0; i < page; i++) {
+      var end = i == page - 1 ? total : (i + 1) * pageSize;
+
+      var temp = config.roomType.slice(i * pageSize, end);
+
+      leftArr.push(React.createElement(LeftList, { roomType: temp }));
+    };
+
     return {
-      datetime: this.getDateTime()
+      datetime: this.getDateTime(),
+      leftArr: leftArr[index],
+      leftSrc: leftArr,
+      totalpage: page,
+      curpage: 0
     };
   },
   render: function render() {
+
     return React.createElement(
       'div',
-      { className: 'row', style: { 'background-color': config.bodyColor } },
+      { className: 'row', style: { 'backgroundColor': config.bodyColor } },
       React.createElement(
         'div',
-        { className: 'col-md-6 hotel', style: { color: config.fontColor, 'font-size': config.fontSize } },
-        React.createElement('img', { src: 'log.jpg', ref: 'image', style: { 'width': '50px', 'height': '50px' }, alt: config.hotelName }),
+        { className: 'col-md-6 hotel', style: { color: config.fontColor, 'fontSize': config.fontSize } },
+        React.createElement('img', { src: 'log.jpg', ref: 'image', style: { 'width': '50px', 'height': '50px', 'margin-top': '-10px' }, alt: config.hotelName }),
         config.hotelName
       ),
       React.createElement(
         'div',
-        { className: 'col-md-6', style: { 'font-size': config.fontSize } },
+        { className: 'col-md-6', style: { 'fontSize': config.fontSize } },
         this.state.datetime
       ),
       React.createElement('div', { className: 'clearfix' }),
       React.createElement(
         'div',
         { className: 'col-md-6 leftList' },
-        React.createElement(LeftList, null)
+        this.state.leftArr
       ),
       React.createElement(
         'div',

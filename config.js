@@ -11,7 +11,8 @@ var config = {
     rulefontSize:  3+'rem', //酒店名字体大小 
     freeService: ['WIFI', '吹风', '插座', '雨伞'], //免费项目
     priceType: ['体验特价', '周末价'], //价格类型
-    timeInterval:3000,//轮播间隔
+    timeInterval:3000,//图片轮播间隔 毫秒
+    roomInterval:2000,//房型切换间隔
     roomType: [{ //房型房价设置
         name: '商务标间',
         price: [138, 138] //顺序对应priceType
