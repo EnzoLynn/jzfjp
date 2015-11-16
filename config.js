@@ -1,10 +1,14 @@
 //配置
 var config = {
     hotelName: '锦至主题酒店', //酒店名
-    fontSize: 43, //酒店名字体大小
+    hotelTel:'02884434952',//电话
+    fontSize: 4+'rem', //酒店名字体大小 1=10px
     fontColor: 'blue', //酒店名字体颜色'
     bodyColor:'#E4E4E4',//背景颜色
-    hotelRule: '宾客退房时间为中午14：00，超过时间加收半天房费，超过18:00加收全天房费。', //规则
+    hotelRule: '宾客退房时间为中午14：00，超过时间加收半天房费，超过18:00加收全天房费。', //酒店退房规定
+    hotelMsg:'锦至主题酒店全体员工热忱欢迎您的光临，您的满意是我们最大的追求！',//酒店公告
+    ruleColor:'red',//规则字体颜色
+    rulefontSize:  3+'rem', //酒店名字体大小 
     freeService: ['WIFI', '吹风', '插座', '雨伞'], //免费项目
     priceType: ['体验特价', '周末价'], //价格类型
     timeInterval:3000,//轮播间隔
