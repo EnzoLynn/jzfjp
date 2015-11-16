@@ -2,6 +2,7 @@ Jz Hotel 房价牌 Version 1.0
 ==== 
 ###Example:  <br>
 ```javascript
+//下载后，执行index.html
 //修改目录下config.js 配置后 个配置请参考事例的样式添加，不限制个数
 //请先备份原始配置,保存配置刷新网站即可见效果
 
