@@ -129,6 +129,7 @@ body {
 }
 
 .bg_time_bj {
+	margin-top: 15px;
     width: 520px;
     height: 113px;
     background: url(../icons/bg_time_bj.png);
