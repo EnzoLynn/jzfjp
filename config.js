@@ -4,14 +4,21 @@ var config = {
     hotelTel:'02884434952',//电话
     fontSize: 4+'rem', //酒店名字体大小 1=10px
     fontColor: 'blue', //酒店名字体颜色'
-    bodyColor:'#E4E4E4',//背景颜色
+    bodyColor:'#D42121',//背景颜色
     hotelRule: '宾客退房时间为中午14：00，超过时间加收半天房费，超过18:00加收全天房费。', //酒店退房规定
     hotelMsg:'锦至主题酒店全体员工热忱欢迎您的光临，您的满意是我们最大的追求！',//酒店公告
     ruleColor:'red',//规则字体颜色
     rulefontSize:  3+'rem', //酒店名字体大小 
-    freeService: ['WIFI', '吹风', '插座', '雨伞'], //免费项目
+    freeService:{
+        wifi:true,//WiFi true为开放，false为不开放
+        adapter:true,//多功能插座
+        hairDrier:true,//电吹风
+        ironBoard:false,//电熨斗
+        sewingKit:false,//针线包
+        umbrella:true,//雨伞        
+    }, //免费项目
     priceType: ['体验特价', '周末价'], //价格类型
-    timeInterval:3000,//图片轮播间隔 毫秒
+    timeInterval:5000,//图片轮播间隔 毫秒
     roomInterval:2000,//房型切换间隔
     roomType: [{ //房型房价设置
         name: '商务标间',

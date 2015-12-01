@@ -4,7 +4,7 @@
  	render: function() {
  		var me = this;
  		var tds = [];
- 		this.props.price.forEach(function(price, key) { 
+ 		this.props.price.forEach(function(price, key) {
  			tds.push(<td className='lrow' key={key}>{price}</td>);
  		});
  		return (
@@ -24,9 +24,18 @@
  		config.priceType.forEach(function(price, key) {
  			tds.push(<th className='head'  key={key}>{price}</th>);
  		});
+ 		var span = config.priceType.length;
  		return (
  			<thead> 
  				<tr>
+	 				<th>
+	 			 	 	<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px'}} alt={config.hotelName} />
+	 			 	</th>
+					<th colSpan ={span} className='hotel'  style={{color:config.fontColor,'fontSize':config.fontSize}}>
+						{config.hotelName} 
+					</th>
+				</tr>
+ 				<tr  className='headTr'>
 					<th className='head'>房型</th> 
 					{tds}
 				</tr>
@@ -41,25 +50,30 @@
  		var me = this;
  		var rows = [],
  			heads = [];
- 		this.props.roomType.forEach(function(room, key) {
- 			rows.push(<ListRow name={room.name} price={room.price}  key={key}/>);
- 		});
-
  		var span = config.priceType.length + 1;
- 		if (rows.length < 5) {
+ 		rows.push(<tr><td className='noborder' colSpan ={span} style={{ background: config.bodyColor}}></td></tr>);
+ 		this.props.roomType.forEach(function(room, key) {
+ 			rows.push(<ListRow name={room.name} price={room.price}  key={key}/>); 
+
+						
+ 			rows.push(<tr><td className='noborder' colSpan ={span} style={{ backgroundColor: config.bodyColor}}></td></tr>);
+ 		}); 
+ 		if (rows.length < 10) {
  			var add = [];
- 			for (var i = 0; i < 5 - rows.length; i++) {
+ 			for (var i = 0; i < 10 - rows.length; i++) {
  				var nk = 'lr' + i;
  				add.push(<tr><td className='lrow' colSpan ={span} key={nk}> - </td></tr>);
  			};
  			rows = rows.concat(add);
+ 			rows.push(<tr><td className='noborder' colSpan ={span} style={{ backgroundColor: config.bodyColor}}></td></tr>);
  		};
- 		rows.push(<tr><td colSpan ={span} ><marquee style={{'color':config.ruleColor,'fontSize':config.rulefontSize}}  >{config.hotelRule}</marquee></td></tr>);
+ 		
+ 		rows.push(<tr><td className='ms_marquee' colSpan ={span} ><marquee style={{'color':config.ruleColor,'fontSize':config.rulefontSize}}  >{config.hotelRule}</marquee></td></tr>);
 
  		return (
- 			<table className='col-md-12 table table-striped'>
+ 			<table className='col-md-12 table' cellPadding={0} cellSpacing={0} >
  			 	<HeadRow/>
- 			 	<tbody>
+ 			 	<tbody> 			 
 				{rows} 
 				</tbody>
  			</table>
@@ -94,7 +108,7 @@
  	},
  	render: function() {
  		return (
- 			<div>
+ 			<div style={{'text-algin':'center'}}>
 				<img src='images/1.jpg' ref='image' className="img-responsive" alt="Responsive image" />
 			</div>
  		);
@@ -106,13 +120,13 @@
  	getWeek: function() {
  		let date = new Date();
  		let day = date.getDay();
- 		if (day == 0) return "星期日";
- 		if (day == 1) return "星期一";
- 		if (day == 2) return "星期二";
- 		if (day == 3) return "星期三";
- 		if (day == 4) return "星期四";
- 		if (day == 5) return "星期五";
- 		if (day == 6) return "星期六";
+ 		if (day == 0) return "日";
+ 		if (day == 1) return "一";
+ 		if (day == 2) return "二";
+ 		if (day == 3) return "三";
+ 		if (day == 4) return "四";
+ 		if (day == 5) return "五";
+ 		if (day == 6) return "六";
  		return 'no week';
  	},
  	preZeroFill: function(num, size) {
@@ -136,7 +150,11 @@
  		//"" + year + "年" +
  		let str = month + "月" + day + "日 " + me.preZeroFill(hours, 2) + ":" + me.preZeroFill(minutes, 2) + ":" + me.preZeroFill(seconds, 2) + "";
  		let week = me.getWeek();
- 		return str + '       ' + week;
+ 		let arr = [];
+ 		arr.push(me.preZeroFill(hours, 2));
+ 		arr.push(me.preZeroFill(minutes, 2));
+ 		arr.push(week);
+ 		return  arr;
 
  	},
  	componentDidMount: function() {
@@ -147,7 +165,7 @@
  			me.setState({
  				datetime: me.getDateTime()
  			});
- 		}, 1000);
+ 		},10000);
  		setInterval(function() {
  			index++;
  			if (index > me.state.totalpage - 1) {
@@ -173,7 +191,7 @@
  		};
 
  		return {
- 			datetime: this.getDateTime(),
+ 			datetime: this.getDateTime(), 			
  			leftArr: leftArr[index],
  			leftSrc: leftArr,
  			totalpage: page,
@@ -181,26 +199,52 @@
  		};
  	},
  	render: function() {
-
+ 		let freeService = [];
+ 		if (config.freeService.wifi) {
+ 			freeService.push(<span className='freeService'><img src="/icons/wifi.png"/></span>);
+ 		};
+ 		if (config.freeService.adapter) {
+ 			freeService.push(<span className='freeService'><img src="/icons/adapter.png"/></span>);
+ 		};
+ 		if (config.freeService.hairDrier) {
+ 			freeService.push(<span className='freeService'><img src="/icons/hairdrier.png"/></span>);
+ 		};
+ 		if (config.freeService.ironBoard) {
+ 			freeService.push(<span className='freeService'><img src="/icons/ironBoard.png"/></span>);
+ 		};
+ 		if (config.freeService.sewingKit) {
+ 			freeService.push(<span className='freeService'><img src="/icons/sewingKit.png"/></span>);
+ 		};
+ 		if (config.freeService.umbrella) {
+ 			freeService.push(<span className='freeService'><img src="/icons/umbrella.png"/></span>);
+ 		};
+ 		 
  		return (
 
  			<div className='row' style={{'backgroundColor':config.bodyColor}}>
-				<div className='col-md-6 hotel' style={{color:config.fontColor,'fontSize':config.fontSize}}>					 
-						<img src='log.jpg' ref='image'  style={{'width':'50px','height':'50px'}} alt={config.hotelName} />
-						{config.hotelName} 
-				</div>
-				<div className="col-md-6" style={{'fontSize':config.fontSize}}>
-				  {this.state.datetime}	 
-				</div>
-				<div className="clearfix"></div>
+				
 				<div className='col-md-6 leftList'>
 					{this.state.leftArr}
 				</div>
 				<div className='col-md-6 rightList'>
 					<RightList/>
 				</div>
+				<div className="clearfix"></div>	
+				<div className="col-md-6" style={{'fontSize':config.fontSize}}>
+				   <div className='bg_servers_item_bj'>
+				   			{freeService}
+				   </div> 
+				</div>  			 
+				<div className="col-md-6" style={{'fontSize':config.fontSize}}> 
+				  <div className='bg_time_bj'>
+				  		<span className="houers">{this.state.datetime[0]}</span>
+				  		<span className="minutes">{this.state.datetime[1]}</span>
+				  		<span className="weekTitle">星期</span>
+				  		<span className="week">{this.state.datetime[2]}</span>
+				  </div> 
+				</div>  
 				<div className="clearfix"></div>
-				<div className="col-md-12">
+				<div className="col-md-12 bottomMsg">
 					<marquee className='col-md-6 telephone' style={{'color':config.ruleColor}}  >{config.hotelMsg}</marquee>
 					<div className="col-md-6 telephone">预订电话: {config.hotelTel}</div>
 				</div>

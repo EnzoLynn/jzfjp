@@ -40,12 +40,27 @@ var HeadRow = React.createClass({
         price
       ));
     });
+    var span = config.priceType.length;
     return React.createElement(
       'thead',
       null,
       React.createElement(
         'tr',
         null,
+        React.createElement(
+          'th',
+          null,
+          React.createElement('img', { src: 'log.jpg', ref: 'image', style: { 'width': '50px', 'height': '50px' }, alt: config.hotelName })
+        ),
+        React.createElement(
+          'th',
+          { colSpan: span, className: 'hotel', style: { color: config.fontColor, 'fontSize': config.fontSize } },
+          config.hotelName
+        )
+      ),
+      React.createElement(
+        'tr',
+        { className: 'headTr' },
         React.createElement(
           'th',
           { className: 'head' },
@@ -64,14 +79,24 @@ var LeftList = React.createClass({
     var me = this;
     var rows = [],
         heads = [];
+    var span = config.priceType.length + 1;
+    rows.push(React.createElement(
+      'tr',
+      null,
+      React.createElement('td', { className: 'noborder', colSpan: span, style: { background: config.bodyColor } })
+    ));
     this.props.roomType.forEach(function (room, key) {
       rows.push(React.createElement(ListRow, { name: room.name, price: room.price, key: key }));
-    });
 
-    var span = config.priceType.length + 1;
-    if (rows.length < 5) {
+      rows.push(React.createElement(
+        'tr',
+        null,
+        React.createElement('td', { className: 'noborder', colSpan: span, style: { backgroundColor: config.bodyColor } })
+      ));
+    });
+    if (rows.length < 10) {
       var add = [];
-      for (var i = 0; i < 5 - rows.length; i++) {
+      for (var i = 0; i < 10 - rows.length; i++) {
         var nk = 'lr' + i;
         add.push(React.createElement(
           'tr',
@@ -84,13 +109,19 @@ var LeftList = React.createClass({
         ));
       };
       rows = rows.concat(add);
+      rows.push(React.createElement(
+        'tr',
+        null,
+        React.createElement('td', { className: 'noborder', colSpan: span, style: { backgroundColor: config.bodyColor } })
+      ));
     };
+
     rows.push(React.createElement(
       'tr',
       null,
       React.createElement(
         'td',
-        { colSpan: span },
+        { className: 'ms_marquee', colSpan: span },
         React.createElement(
           'marquee',
           { style: { 'color': config.ruleColor, 'fontSize': config.rulefontSize } },
@@ -101,7 +132,7 @@ var LeftList = React.createClass({
 
     return React.createElement(
       'table',
-      { className: 'col-md-12 table table-striped' },
+      { className: 'col-md-12 table', cellPadding: 0, cellSpacing: 0 },
       React.createElement(HeadRow, null),
       React.createElement(
         'tbody',
@@ -141,7 +172,7 @@ var RightList = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      null,
+      { style: { 'text-algin': 'center' } },
       React.createElement('img', { src: 'images/1.jpg', ref: 'image', className: 'img-responsive', alt: 'Responsive image' })
     );
   }
@@ -153,13 +184,13 @@ var JzFjp = React.createClass({
   getWeek: function getWeek() {
     var date = new Date();
     var day = date.getDay();
-    if (day == 0) return "星期日";
-    if (day == 1) return "星期一";
-    if (day == 2) return "星期二";
-    if (day == 3) return "星期三";
-    if (day == 4) return "星期四";
-    if (day == 5) return "星期五";
-    if (day == 6) return "星期六";
+    if (day == 0) return "日";
+    if (day == 1) return "一";
+    if (day == 2) return "二";
+    if (day == 3) return "三";
+    if (day == 4) return "四";
+    if (day == 5) return "五";
+    if (day == 6) return "六";
     return 'no week';
   },
   preZeroFill: function preZeroFill(num, size) {
@@ -184,7 +215,11 @@ var JzFjp = React.createClass({
     //"" + year + "年" +
     var str = month + "月" + day + "日 " + me.preZeroFill(hours, 2) + ":" + me.preZeroFill(minutes, 2) + ":" + me.preZeroFill(seconds, 2) + "";
     var week = me.getWeek();
-    return str + '       ' + week;
+    var arr = [];
+    arr.push(me.preZeroFill(hours, 2));
+    arr.push(me.preZeroFill(minutes, 2));
+    arr.push(week);
+    return arr;
   },
   componentDidMount: function componentDidMount() {
 
@@ -194,7 +229,7 @@ var JzFjp = React.createClass({
       me.setState({
         datetime: me.getDateTime()
       });
-    }, 1000);
+    }, 10000);
     setInterval(function () {
       index++;
       if (index > me.state.totalpage - 1) {
@@ -228,22 +263,53 @@ var JzFjp = React.createClass({
     };
   },
   render: function render() {
+    var freeService = [];
+    if (config.freeService.wifi) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/wifi.png' })
+      ));
+    };
+    if (config.freeService.adapter) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/adapter.png' })
+      ));
+    };
+    if (config.freeService.hairDrier) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/hairdrier.png' })
+      ));
+    };
+    if (config.freeService.ironBoard) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/ironBoard.png' })
+      ));
+    };
+    if (config.freeService.sewingKit) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/sewingKit.png' })
+      ));
+    };
+    if (config.freeService.umbrella) {
+      freeService.push(React.createElement(
+        'span',
+        { className: 'freeService' },
+        React.createElement('img', { src: '/icons/umbrella.png' })
+      ));
+    };
 
     return React.createElement(
       'div',
       { className: 'row', style: { 'backgroundColor': config.bodyColor } },
-      React.createElement(
-        'div',
-        { className: 'col-md-6 hotel', style: { color: config.fontColor, 'fontSize': config.fontSize } },
-        React.createElement('img', { src: 'log.jpg', ref: 'image', style: { 'width': '50px', 'height': '50px', 'margin-top': '-10px' }, alt: config.hotelName }),
-        config.hotelName
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-md-6', style: { 'fontSize': config.fontSize } },
-        this.state.datetime
-      ),
-      React.createElement('div', { className: 'clearfix' }),
       React.createElement(
         'div',
         { className: 'col-md-6 leftList' },
@@ -257,7 +323,45 @@ var JzFjp = React.createClass({
       React.createElement('div', { className: 'clearfix' }),
       React.createElement(
         'div',
-        { className: 'col-md-12' },
+        { className: 'col-md-6', style: { 'fontSize': config.fontSize } },
+        React.createElement(
+          'div',
+          { className: 'bg_servers_item_bj' },
+          freeService
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-md-6', style: { 'fontSize': config.fontSize } },
+        React.createElement(
+          'div',
+          { className: 'bg_time_bj' },
+          React.createElement(
+            'span',
+            { className: 'houers' },
+            this.state.datetime[0]
+          ),
+          React.createElement(
+            'span',
+            { className: 'minutes' },
+            this.state.datetime[1]
+          ),
+          React.createElement(
+            'span',
+            { className: 'weekTitle' },
+            '星期'
+          ),
+          React.createElement(
+            'span',
+            { className: 'week' },
+            this.state.datetime[2]
+          )
+        )
+      ),
+      React.createElement('div', { className: 'clearfix' }),
+      React.createElement(
+        'div',
+        { className: 'col-md-12 bottomMsg' },
         React.createElement(
           'marquee',
           { className: 'col-md-6 telephone', style: { 'color': config.ruleColor } },
