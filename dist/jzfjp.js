@@ -173,7 +173,7 @@ var RightList = React.createClass({
     return React.createElement(
       'div',
       { style: { 'text-algin': 'center' } },
-      React.createElement('img', { src: 'images/1.jpg', ref: 'image', className: 'img-responsive', alt: 'Responsive image' })
+      React.createElement('img', { src: config.images[0], ref: 'image', alt: 'Responsive image' })
     );
   }
 });
@@ -268,42 +268,42 @@ var JzFjp = React.createClass({
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/wifi.png' })
+        React.createElement('img', { src: 'icons/wifi.png' })
       ));
     };
     if (config.freeService.adapter) {
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/adapter.png' })
+        React.createElement('img', { src: 'icons/adapter.png' })
       ));
     };
     if (config.freeService.hairDrier) {
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/hairdrier.png' })
+        React.createElement('img', { src: 'icons/hairdrier.png' })
       ));
     };
     if (config.freeService.ironBoard) {
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/ironBoard.png' })
+        React.createElement('img', { src: 'icons/ironBoard.png' })
       ));
     };
     if (config.freeService.sewingKit) {
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/sewingKit.png' })
+        React.createElement('img', { src: 'icons/sewingKit.png' })
       ));
     };
     if (config.freeService.umbrella) {
       freeService.push(React.createElement(
         'span',
         { className: 'freeService' },
-        React.createElement('img', { src: '/icons/umbrella.png' })
+        React.createElement('img', { src: 'icons/umbrella.png' })
       ));
     };
 

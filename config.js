@@ -13,8 +13,8 @@ var config = {
         wifi:true,//WiFi true为开放，false为不开放
         adapter:true,//多功能插座
         hairDrier:true,//电吹风
-        ironBoard:false,//电熨斗
-        sewingKit:false,//针线包
+        ironBoard:true,//电熨斗
+        sewingKit:true,//针线包
         umbrella:true,//雨伞        
     }, //免费项目
     priceType: ['体验特价', '周末价'], //价格类型
@@ -49,6 +49,9 @@ var config = {
         price: [268, 308]
 
     }],
-    images: ['images/1.jpg', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg', 'images/5.jpg', 'images/6.jpg'] //图片列表
+    images: ['images/标间.jpg', 'images/丛林套房.jpg', 'images/黄沙01.jpg', 
+            'images/日式主题.jpg', 'images/水蓝套房.jpg', 'images/水蓝主题.jpg'
+            , 'images/阳光花园.jpg', 'images/中式01.jpg', 'images/中式02.jpg'
+            , 'images/中式套房.jpg'] //图片列表
 
 };

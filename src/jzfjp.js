@@ -109,7 +109,7 @@
  	render: function() {
  		return (
  			<div style={{'text-algin':'center'}}>
-				<img src='images/1.jpg' ref='image' className="img-responsive" alt="Responsive image" />
+				<img src={config.images[0]} ref='image'   alt="Responsive image" />
 			</div>
  		);
  	}
@@ -201,22 +201,22 @@
  	render: function() {
  		let freeService = [];
  		if (config.freeService.wifi) {
- 			freeService.push(<span className='freeService'><img src="/icons/wifi.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/wifi.png"/></span>);
  		};
  		if (config.freeService.adapter) {
- 			freeService.push(<span className='freeService'><img src="/icons/adapter.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/adapter.png"/></span>);
  		};
  		if (config.freeService.hairDrier) {
- 			freeService.push(<span className='freeService'><img src="/icons/hairdrier.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/hairdrier.png"/></span>);
  		};
  		if (config.freeService.ironBoard) {
- 			freeService.push(<span className='freeService'><img src="/icons/ironBoard.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/ironBoard.png"/></span>);
  		};
  		if (config.freeService.sewingKit) {
- 			freeService.push(<span className='freeService'><img src="/icons/sewingKit.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/sewingKit.png"/></span>);
  		};
  		if (config.freeService.umbrella) {
- 			freeService.push(<span className='freeService'><img src="/icons/umbrella.png"/></span>);
+ 			freeService.push(<span className='freeService'><img src="icons/umbrella.png"/></span>);
  		};
  		 
  		return (

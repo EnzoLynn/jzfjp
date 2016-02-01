@@ -172,7 +172,7 @@ body {
     /* IE6-9 */
 }
 .freeService:nth-child(1){
-	margin-left: 15px;
+	margin-left: 19px;
 }
 .freeService:nth-child(n+2){
 	margin-left: 20px;
